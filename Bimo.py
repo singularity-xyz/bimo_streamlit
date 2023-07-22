@@ -1,8 +1,7 @@
 import os
 import dotenv
-dotenv.load_dotenv()
 import streamlit as st
-
+dotenv.load_dotenv()
 from llama_index import (
     VectorStoreIndex,
     SimpleDirectoryReader,
@@ -15,6 +14,7 @@ from langchain.chat_models import ChatOpenAI
 
 index_name = "./saved_index"
 documents_folder = "./documents"
+
 
 @st.cache_resource
 def initialize_index(index_name, documents_folder):
