@@ -1,5 +1,6 @@
-import os
-import streamlit as st
+import os, streamlit as st
+os.environ["OPENAI_API_KEY"] = "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"
+
 from llama_index import (
     VectorStoreIndex,
     SimpleDirectoryReader,
@@ -12,7 +13,6 @@ from langchain.chat_models import ChatOpenAI
 
 index_name = "./saved_index"
 documents_folder = "./documents"
-
 
 @st.cache_resource
 def initialize_index(index_name, documents_folder):
