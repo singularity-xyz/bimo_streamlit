@@ -45,15 +45,11 @@ def query_index(_index, query_text):
     return str(response)
 
 
-st.title("🦙 Llama Index Demo 🦙")
-st.header("Welcome to the Llama Index Streamlit Demo")
-st.write(
-    "Enter a query about Paul Graham's essays. You can check out the original essay [here](https://raw.githubusercontent.com/jerryjliu/llama_index/main/examples/paul_graham_essay/data/paul_graham_essay.txt). Your query will be answered using the essay as context, using embeddings from text-ada-002 and LLM completions from gpt-3.5-turbo. You can read more about Llama Index and how this works in [our docs!](https://gpt-index.readthedocs.io/en/latest/index.html)"
-)
+st.title("🦙 Bimo Demo 🦙")
 
 index = initialize_index(index_name, documents_folder)
 
-text = st.text_input("Query text:", value="What did the author do growing up?")
+text = st.text_input("Query:", value="What is ecosystem and ecosystem ecology?")
 
 if st.button("Run Query") and text is not None:
     response = query_index(index, text)
