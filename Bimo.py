@@ -46,7 +46,7 @@ def query_index(_index, query_text):
 
 
 st.title("🦙 Bimo Demo 🦙")
-st.header("Enter a query about ENST 100")
+st.subheader("Enter a query about ENST 100")
 
 index = initialize_index(index_name, documents_folder)
 
