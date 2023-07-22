@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from llama_index import (
-    GPTVectorStoreIndex,
+    VectorStoreIndex,
     SimpleDirectoryReader,
     ServiceContext,
     StorageContext,
@@ -27,7 +27,7 @@ def initialize_index(index_name, documents_folder):
         )
     else:
         documents = SimpleDirectoryReader(documents_folder).load_data()
-        index = GPTVectorStoreIndex.from_documents(
+        index = VectorStoreIndex.from_documents(
             documents, service_context=service_context
         )
         index.storage_context.persist(persist_dir=index_name)
@@ -65,13 +65,13 @@ if st.button("Run Query") and text is not None:
     response = query_index(index, text)
     st.markdown(response)
 
-    llm_col, embed_col = st.columns(2)
-    with llm_col:
-        st.markdown(
-            f"LLM Tokens Used: {index.service_context.llm_predictor._last_token_usage}"
-        )
+    # llm_col, embed_col = st.columns(2)
+    # with llm_col:
+    #     st.markdown(
+    #         f"LLM Tokens Used: {index.service_context.llm_predictor._last_token_usage}"
+    #     )
 
-    with embed_col:
-        st.markdown(
-            f"Embedding Tokens Used: {index.service_context.embed_model._last_token_usage}"
-        )
+    # with embed_col:
+    #     st.markdown(
+    #         f"Embedding Tokens Used: {index.service_context.embed_model._last_token_usage}"
+    #     )
