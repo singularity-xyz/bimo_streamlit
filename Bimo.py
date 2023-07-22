@@ -1,5 +1,7 @@
-import os, streamlit as st
-os.environ["OPENAI_API_KEY"] = "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"
+import os
+import dotenv
+dotenv.load_dotenv()
+import streamlit as st
 
 from llama_index import (
     VectorStoreIndex,
@@ -49,15 +51,7 @@ st.write(
     "Enter a query about Paul Graham's essays. You can check out the original essay [here](https://raw.githubusercontent.com/jerryjliu/llama_index/main/examples/paul_graham_essay/data/paul_graham_essay.txt). Your query will be answered using the essay as context, using embeddings from text-ada-002 and LLM completions from gpt-3.5-turbo. You can read more about Llama Index and how this works in [our docs!](https://gpt-index.readthedocs.io/en/latest/index.html)"
 )
 
-# index = None
-# api_key = st.text_input("Enter your OpenAI API key here:", type="password")
-# if api_key:
-#     os.environ["OPENAI_API_KEY"] = api_key
 index = initialize_index(index_name, documents_folder)
-
-
-if index is None:
-    st.warning("Please enter your api key first.")
 
 text = st.text_input("Query text:", value="What did the author do growing up?")
 
