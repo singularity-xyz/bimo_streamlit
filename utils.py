@@ -75,10 +75,13 @@ class QueryEngineFactory:
             postprocessor = SentenceTransformerRerank(model="cross-encoder/ms-marco-MiniLM-L-2-v2", top_n=2)
             query_engine = index.as_query_engine(node_postprocessors=[postprocessor])
         elif name == "lectures":
-            # query_transform = HyDEQueryTransform()
+            query_transform = HyDEQueryTransform()
             index = self.create_index(index_type="vector", folder_name=name)
-            postprocessor = PrevNextNodePostprocessor(docstore=index.docstore, num_nodes=1, mode="both")
-            query_engine = index.as_query_engine(node_postprocessors=[postprocessor])
+            # postprocessor = PrevNextNodePostprocessor(docstore=index.docstore, num_nodes=1, mode="both")
+            query_engine = TransformQueryEngine(
+                query_engine=index.as_query_engine(),
+                query_transform=query_transform,
+            )
         elif name == "router":
             syllabus_tool = QueryEngineTool.from_defaults(
                 query_engine=self.create_query_engine("syllabus"),
@@ -113,11 +116,7 @@ class PDFViewer:
         source.node.metadata["score"] = source.score
 
         with open(pdf_file, "rb") as file:
-            pdf_reader = PyPDF2.PdfReader(file)
-            pdf_writer = PyPDF2.PdfWriter()
-            pdf_writer.add_page(pdf_reader.pages[pdf_page])
-            pdf_bytes = BytesIO()
-            pdf_writer.write(pdf_bytes)
+            pdf_bytes = BytesIO(file.read())
             base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
 
-        return f'<embed src="data:application/pdf;base64,{base64_pdf}#page={pdf_page}" width="700" height="500" type="application/pdf">'
+        return f'<embed src="data:application/pdf;base64,{base64_pdf}#page={pdf_page+1}" width="700" height="500" type="application/pdf">'
